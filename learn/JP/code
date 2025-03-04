@@ -1,0 +1,136 @@
+// You are using Java
+import java.util.*;
+
+class javaprac
+{
+    public static void main(String[] args)
+    {
+        Scanner sc=new Scanner(System.in);
+        String s1=sc.nextLine();
+        String s2=sc.nextLine();
+        String s3=sc.nextLine();
+    
+        String f1="",m1="",e1="",f2="",e2="",m2="",f3="",e3="",m3="";
+       
+        int d1=s1.length();
+       int d2=s2.length();
+       int d3=s3.length();
+       // int x1=d1%3;
+       // System.out.println(d1%3);
+        if(d1%3==0)
+        {
+            int k=d1/3;
+           
+            f1+=s1.substring(0,k);
+            m1+=s1.substring(k,k+k);
+           e1+=s1.substring(k+k,d1);
+            
+       
+        }
+         else if(d1%3==2)
+        {
+            int k=(d1/3)+1;
+           
+            f1+=s1.substring(0,k);
+            m1+=s1.substring(k,k+k-1);
+           e1+=s1.substring(k+k-1,d1);
+            
+      
+        }
+        
+         else if(d1%3==1)
+        {
+            int k=(d1/3);
+           
+            f1+=s1.substring(0,k);
+            m1+=s1.substring(k,k+k+1);
+           e1+=s1.substring(k+k+1,d1);
+            
+       
+        }
+      
+        if(d2%3==0)
+        {
+            int k=d2/3;
+           
+            f2+=s2.substring(0,k);
+            m2+=s2.substring(k,k+k);
+           e2+=s2.substring(k+k,d2);
+            
+       
+        }
+         else if(d2%3==2)
+        {
+            int k=(d2/3)+1;
+           
+            f2+=s2.substring(0,k);
+            m2+=s2.substring(k,k+k-1);
+           e2+=s2.substring(k+k-1,d2);
+            
+      
+        }
+        
+         else if(d2%3==1)
+        {
+            int k=(d2/3);
+           
+            f2+=s2.substring(0,k);
+            m2+=s2.substring(k,k+k+1);
+           e2+=s2.substring(k+k+1,d2);
+            
+       
+        }
+       if(d3%3==0)
+        {
+            int k=(d3/3);
+           
+            f3+=s3.substring(0,k);
+            m3+=s3.substring(k,k+k);
+           e3+=s3.substring(k+k,d3);
+            
+       
+        }
+         else if(d3%3==2)
+        {
+            int k=(d3/3)+1;
+           
+            f3+=s3.substring(0,k);
+            m3+=s3.substring(k,k+k-1);
+           e3+=s3.substring(k+k-1,d3);
+            
+      
+        }
+        
+         else if(d3%3==1)
+        {
+            int k=(d3/3);
+           
+            f3+=s3.substring(0,k);
+            m3+=s3.substring(k,k+k+1);
+           e3+=s3.substring(k+k+1,d3);
+            
+       
+        }
+     String news1=f1.concat(m2).concat(e3);
+     String news2=m1.concat(e2).concat(f3);
+     String news3=e1.concat(f2).concat(m3);
+      System.out.println(news1);
+      System.out.println(news2);
+    //  System.out.println(news3);
+     
+
+ String q3="";
+for(int i=0;i<news3.length();i++) { 
+    char c = news3.charAt(i);
+    if(Character.isUpperCase(c)) { 
+    q3+=Character.toLowerCase(c);
+    } else if(Character.isLowerCase(c)) { 
+   q3+=Character.toUpperCase(c);
+    }
+} 
+System.out.println(q3);
+
+
+    
+    }
+}

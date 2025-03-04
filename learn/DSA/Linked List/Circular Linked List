@@ -1,0 +1,173 @@
+#include <iostream>
+using namespace std;
+
+// Node structure for the Circular Linked List
+struct Node {
+    int data;
+    Node* next;
+};
+
+// Function to insert a node at the beginning of the Circular Linked List
+void insertAtBeginning(Node*& head, int value) {
+    Node* newNode = new Node();
+    newNode->data = value;
+    newNode->next = nullptr;
+
+    if (head == nullptr) {
+        head = newNode;
+        newNode->next = head; // Circular link
+    } else {
+        Node* temp = head;
+        while (temp->next != head) {
+            temp = temp->next;
+        }
+        temp->next = newNode;
+        newNode->next = head;
+        head = newNode;
+    }
+}
+
+// Function to insert a node at the end of the Circular Linked List
+void insertAtEnd(Node*& head, int value) {
+    Node* newNode = new Node();
+    newNode->data = value;
+    newNode->next = nullptr;
+
+    if (head == nullptr) {
+        head = newNode;
+        newNode->next = head;
+    } else {
+        Node* temp = head;
+        while (temp->next != head) {
+            temp = temp->next;
+        }
+        temp->next = newNode;
+        newNode->next = head;
+    }
+}
+
+// Function to insert a node at a specific position
+void insertAtPosition(Node*& head, int position, int value) {
+    Node* newNode = new Node();
+    newNode->data = value;
+
+    if (position == 1) {
+        insertAtBeginning(head, value);
+        return;
+    }
+
+    Node* temp = head;
+    for (int i = 1; i < position - 1 && temp->next != head; i++) {
+        temp = temp->next;
+    }
+
+    newNode->next = temp->next;
+    temp->next = newNode;
+}
+
+// Function to delete a node at the beginning of the Circular Linked List
+void deleteAtBeginning(Node*& head) {
+    if (head == nullptr) return;
+    
+    if (head->next == head) {
+        delete head;
+        head = nullptr;
+        return;
+    }
+    
+    Node* temp = head;
+    Node* last = head;
+    while (last->next != head) {
+        last = last->next;
+    }
+    
+    head = head->next;
+    last->next = head;
+    delete temp;
+}
+
+// Function to delete a node at the end of the Circular Linked List
+void deleteAtEnd(Node*& head) {
+    if (head == nullptr) return;
+    
+    if (head->next == head) {
+        delete head;
+        head = nullptr;
+        return;
+    }
+    
+    Node* temp = head;
+    Node* prev = nullptr;
+    while (temp->next != head) {
+        prev = temp;
+        temp = temp->next;
+    }
+    
+    prev->next = head;
+    delete temp;
+}
+
+// Function to delete a node at a specific position
+void deleteAtPosition(Node*& head, int position) {
+    if (head == nullptr) return;
+    
+    if (position == 1) {
+        deleteAtBeginning(head);
+        return;
+    }
+    
+    Node* temp = head;
+    Node* prev = nullptr;
+    for (int i = 1; i < position && temp->next != head; i++) {
+        prev = temp;
+        temp = temp->next;
+    }
+    
+    if (temp == head) return;
+    
+    prev->next = temp->next;
+    delete temp;
+}
+
+// Function to display the Circular Linked List
+void displayList(Node* head) {
+    if (head == nullptr) {
+        cout << "List is empty." << endl;
+        return;
+    }
+    Node* temp = head;
+    do {
+        cout << temp->data << " ";
+        temp = temp->next;
+    } while (temp != head);
+    cout << endl;
+}
+
+int main() {
+    Node* head = nullptr;
+    int n, value, position;
+    
+    cout << "Enter number of elements: ";
+    cin >> n;
+    
+    cout << "Enter " << n << " elements: ";
+    for (int i = 0; i < n; i++) {
+        cin >> value;
+        insertAtEnd(head, value);
+    }
+    
+    cout << "Circular Linked List before insertion: ";
+    displayList(head);
+    
+    cout << "Enter position and value to insert: ";
+    cin >> position >> value;
+    insertAtPosition(head, position, value);
+    displayList(head);
+    
+    cout << "Enter position to delete: ";
+    cin >> position;
+    deleteAtPosition(head, position);
+    displayList(head);
+    
+    return 0;
+}
