@@ -97,120 +97,109 @@ int depth(Node* root) {
     return max(leftDepth, rightDepth) + 1;
 }
 **********delete****************
- #include <iostream>
+#include<iostream>
 using namespace std;
 
-
-struct node
-{
-    node* left;
-    node* right;
+struct Node {
     int data;
+    Node* left, *right;
 };
 
-node* createnode(int val)
-{
-    node* nn=new node;
-    nn->data=val;
-    nn->left=nullptr;
-    nn->right=nullptr;
+Node* create(int val) {
+    Node* nn = new Node;
+    nn->data = val;
+    nn->left = NULL;
+    nn->right = NULL;
     return nn;
 }
 
-void insert(node* &root,int val)
-{
-    if(root==nullptr)
-    {
-        root=createnode(val);
+Node* findMin(Node* root) {
+    while (root->left != NULL) {
+        root = root->left;
     }
-    else if(val<root->data)
-    {
-        insert(root->left,val);
-    }
-    else if(val>root->data)
-    {
-        insert(root->right,val);
-    }
+    return root;
 }
 
-node* min(node* root)
-{
-    if(root->left==nullptr)
-    {
-        return root;
-    }
-    int max=root->data;
-    if(root->left->data<max)
-    {
-      min(root->left);
-    }
-}
-
-
-void removenode(node* &root,int key)
-{
-    if(root==nullptr)
-    {
+void insert(Node*& root, int val) {
+    if (root == NULL) {
+        root = create(val);
         return;
     }
-    else if(key<root->data)
-    {
-        removenode(root->left,key);
+    if (val < root->data) {
+        insert(root->left, val);
     }
-    else if(key>root->data)
-    {
-        removenode(root->right,key);
+    else if (val > root->data) {
+        insert(root->right, val);
     }
-    else
-    {
-        if(root->left==nullptr)
-        {
-            node* temp=root->right;
+}
+
+void removenode(Node*& root, int key) {
+    if (root == nullptr) {
+        return;
+    }
+
+    if (key < root->data) {
+        removenode(root->left, key);
+    }
+    else if (key > root->data) {
+        removenode(root->right, key);
+    }
+    else {
+        // Case 1: No child
+        if (root->left == NULL && root->right == NULL) {
             delete root;
-            root=temp;
+            root = NULL;
         }
-        else if(root->right==nullptr)
-        {
-             node* temp=root->left;
+        // Case 2: One child (right child)
+        else if (root->left == NULL) {
+            Node* temp = root->right;
             delete root;
-            root=temp;
+            root = temp;
         }
-        else
-        {
-            node* minn=min(root->right);
-            root->data=minn->data;
-            removenode(root->right,minn->data);
+        // Case 3: One child (left child)
+        else if (root->right == NULL) {
+            Node* temp = root->left;
+            delete root;
+            root = temp;
+        }
+        // Case 4: Two children
+        else {
+            Node* temp = findMin(root->right); // Find the minimum in the right subtree
+            root->data = temp->data;           // Copy the minimum value to root
+            removenode(root->right, temp->data); // Delete the duplicate node
         }
     }
 }
 
-void inor(node* root)
-{
-    if(root)
-    {
-        inor(root->left);
-        cout<<root->data<<" ";
-        inor(root->right);
-        
+void inorder(Node* root) {
+    if (root != NULL) {
+        inorder(root->left);
+        cout << root->data << " ";
+        inorder(root->right);
     }
 }
-int main()
-{
- int k;
- cin>>k;
- node* root=nullptr;
- for(int i=0;i<k;i++)
- {
-     int c;
-     cin>>c;
-     insert(root,c);
- }
- int l;
- cin>>l;
- removenode(root,l);
- 
- cout<<"AFTER DELETION\n";
- inor(root);
-}	
+
+int main() {
+    int k;
+    cin >> k; // Input the number of nodes to be inserted into the tree
+
+    Node* root = nullptr;
+
+    for (int i = 0; i < k; i++) {
+        int c;
+        cin >> c; // Input the values to insert into the tree
+        insert(root, c);
+    }
+
+    int l;
+    cin >> l; // Input the value to be deleted from the tree
+    removenode(root, l); // Call removenode to delete the value
+
+    cout << "AFTER DELETION\n";
+    inorder(root); // Output the inorder traversal after deletion
+    cout << endl;
+
+    return 0;
+}
 
 
