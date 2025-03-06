@@ -96,5 +96,121 @@ int depth(Node* root) {
     int rightDepth = depth(root->right);
     return max(leftDepth, rightDepth) + 1;
 }
+**********delete****************
+ #include <iostream>
+using namespace std;
+
+
+struct node
+{
+    node* left;
+    node* right;
+    int data;
+};
+
+node* createnode(int val)
+{
+    node* nn=new node;
+    nn->data=val;
+    nn->left=nullptr;
+    nn->right=nullptr;
+    return nn;
+}
+
+void insert(node* &root,int val)
+{
+    if(root==nullptr)
+    {
+        root=createnode(val);
+    }
+    else if(val<root->data)
+    {
+        insert(root->left,val);
+    }
+    else if(val>root->data)
+    {
+        insert(root->right,val);
+    }
+}
+
+node* min(node* root)
+{
+    if(root->left==nullptr)
+    {
+        return root;
+    }
+    int max=root->data;
+    if(root->left->data<max)
+    {
+      min(root->left);
+    }
+}
+
+
+void removenode(node* &root,int key)
+{
+    if(root==nullptr)
+    {
+        return;
+    }
+    else if(key<root->data)
+    {
+        removenode(root->left,key);
+    }
+    else if(key>root->data)
+    {
+        removenode(root->right,key);
+    }
+    else
+    {
+        if(root->left==nullptr)
+        {
+            node* temp=root->right;
+            delete root;
+            root=temp;
+        }
+        else if(root->right==nullptr)
+        {
+             node* temp=root->left;
+            delete root;
+            root=temp;
+        }
+        else
+        {
+            node* minn=min(root->right);
+            root->data=minn->data;
+            removenode(root->right,minn->data);
+        }
+    }
+}
+
+void inor(node* root)
+{
+    if(root)
+    {
+        inor(root->left);
+        cout<<root->data<<" ";
+        inor(root->right);
+        
+    }
+}
+int main()
+{
+ int k;
+ cin>>k;
+ node* root=nullptr;
+ for(int i=0;i<k;i++)
+ {
+     int c;
+     cin>>c;
+     insert(root,c);
+ }
+ int l;
+ cin>>l;
+ removenode(root,l);
+ 
+ cout<<"AFTER DELETION\n";
+ inor(root);
+}	
 
 
